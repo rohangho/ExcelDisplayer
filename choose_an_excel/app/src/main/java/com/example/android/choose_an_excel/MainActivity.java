@@ -119,6 +119,14 @@ public class MainActivity extends AppCompatActivity {
             comma = q.toCharArray()[i] + "";
             if (comma.equalsIgnoreCase(",")) {
                 comma_counter++;
+                if(comma_counter==2)
+                {
+                    CustomClass addition=new CustomClass(rollconcat,nameconcat);
+                    mylist.add(addition);
+                    comma_counter=0;
+                    rollconcat=null;
+                    nameconcat=null;
+                }
             } else
             {
               if(comma_counter%2==0)
@@ -129,13 +137,7 @@ public class MainActivity extends AppCompatActivity {
               {
                   nameconcat=nameconcat+comma;
               }
-              if(rollconcat!=null&& nameconcat!=null)
-              {
-                  CustomClass addition=new CustomClass(rollconcat,nameconcat);
-                  mylist.add(addition);
-                  nameconcat=null;
-                  rollconcat=null;
-              }
+
             }
 
             //print_detail.setText(comma);
