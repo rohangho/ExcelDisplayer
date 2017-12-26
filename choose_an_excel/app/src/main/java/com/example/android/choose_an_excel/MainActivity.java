@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,9 +26,16 @@ public class MainActivity extends AppCompatActivity {
 
     TextView print_detail;
     Button abc;
+    ArrayList<CustomClass> mylist=new ArrayList<CustomClass>();
+    String data;
+    RecyclerView namedisplayer;
+    Adapter adapter;
+    String rollconcat;
+    RecyclerView.LayoutManager layoutManager;
+    String nameconcat;
 
     static final int READ_REQUEST_CODE=22;
-    ArrayList<String> detail = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +102,52 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //ContentResolver resolver = this.getContentResolver();
                // Cursor cursor=resolver.query(uri,null,null,null,null);
-                print_detail.setText((message.toString()).toCharArray()[0]);
+                data=message.toString();
+
+                addToArraylist(data);
 
             }
         }
+
+    }
+    public void addToArraylist(String q)
+    {
+
+        int comma_counter=0;
+        for(int i=1;i<q.length();i++) {
+            String comma;
+            comma = q.toCharArray()[i] + "";
+            if (comma.equalsIgnoreCase(",")) {
+                comma_counter++;
+            } else
+            {
+              if(comma_counter%2==0)
+              {
+                  rollconcat=rollconcat+comma;
+              }
+              else
+              {
+                  nameconcat=nameconcat+comma;
+              }
+              if(rollconcat!=null&& nameconcat!=null)
+              {
+                  CustomClass addition=new CustomClass(rollconcat,nameconcat);
+                  mylist.add(addition);
+                  nameconcat=null;
+                  rollconcat=null;
+              }
+            }
+
+            //print_detail.setText(comma);
+        }
+
+        namedisplayer=(RecyclerView)findViewById(R.id.rec);
+        layoutManager=new LinearLayoutManager(this);
+        namedisplayer.setLayoutManager(layoutManager);
+        namedisplayer.setHasFixedSize(true);
+        adapter=new Adapter(mylist,this);
+        namedisplayer.setAdapter(adapter);
+
 
     }
 
