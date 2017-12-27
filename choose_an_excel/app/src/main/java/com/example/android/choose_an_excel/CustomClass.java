@@ -8,11 +8,13 @@ public class CustomClass  {
 
     private String roll;
     private String name;
+    private String bool;
 
-    public CustomClass(String roll_number,String original_name)
+    public CustomClass(String roll_number,String original_name,String bool)
     {
         this.roll=roll_number;
         this.name=original_name;
+        this.bool=bool;
     }
 
     public String getRoll()
@@ -24,4 +26,7 @@ public class CustomClass  {
         return name;
     }
 
+    public String getBool() {
+        return bool;
+    }
 }

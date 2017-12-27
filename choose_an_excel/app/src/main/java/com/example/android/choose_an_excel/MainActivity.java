@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     String rollconcat;
     RecyclerView.LayoutManager layoutManager;
     String nameconcat;
+    Button save;
 
     static final int READ_REQUEST_CODE=22;
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         print_detail=(TextView)findViewById(R.id.detail);
+        save=(Button)findViewById(R.id.save);
 
         abc=(Button)findViewById(R.id.file_selector);
         abc.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         });//end of onclick
 
 
+    }
+
+    public void SaveMe(View view)
+    {
+        Log.e("hiiiiii",Integer.toString(adapter.tracker.length));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -119,42 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void addToArraylist(String q)
-    {
-        int comma_counter=0;
-        for(int i=1;i<q.length();i++) {
-            String comma;
-            comma = q.toCharArray()[i] + "";
-            if (comma.equalsIgnoreCase(",")) {
-                comma_counter++;
-                if(comma_counter==2)
-                {
-                    CustomClass addition=new CustomClass(rollconcat,nameconcat);
-                    mylist.add(addition);
-                    comma_counter=0;
-                    rollconcat="";
-                    nameconcat="";
-                }
-            } else
-            {
-              if(comma_counter%2==0)
-              {
-                  rollconcat=rollconcat+comma;
-              }
-              else
-              {
-                  nameconcat=nameconcat+comma;
-              }
-            }
-        }
-        namedisplayer=(RecyclerView)findViewById(R.id.rec);
-        layoutManager=new LinearLayoutManager(this);
-        namedisplayer.setLayoutManager(layoutManager);
-        namedisplayer.setHasFixedSize(true);
-        adapter=new Adapter(mylist,this);
-        namedisplayer.setAdapter(adapter);
-    }
-
 
 
 
@@ -164,16 +136,17 @@ public class MainActivity extends AppCompatActivity {
     public void addtoArraylist_Using1function(String q)
     {
         List<String> list = new ArrayList<String>(Arrays.asList(q.split(",")));
-       for (int i=0;i<list.size()-1;i=i+2) {
-           CustomClass addition = new CustomClass(list.get(i), list.get(i+1));
+       for (int i=0;i<list.size()-2;i=i+3) {
+           CustomClass addition = new CustomClass(list.get(i), list.get(i+1),list.get(i+2));
            mylist.add(addition);
        }
         namedisplayer=(RecyclerView)findViewById(R.id.rec);
         layoutManager=new LinearLayoutManager(this);
         namedisplayer.setLayoutManager(layoutManager);
         namedisplayer.setHasFixedSize(true);
-        adapter=new Adapter(mylist,this);
+        adapter=new Adapter(mylist,this,list.size());
         namedisplayer.setAdapter(adapter);
+
 
     }
 
