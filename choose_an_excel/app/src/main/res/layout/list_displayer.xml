@@ -2,19 +2,26 @@
 <LinearLayout
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/roll"/>
+        android:id="@+id/roll"
+
+
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/name"/>
+        android:textSize="24dp"
+        android:id="@+id/name"
+
+        />
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         />
 
 </LinearLayout>

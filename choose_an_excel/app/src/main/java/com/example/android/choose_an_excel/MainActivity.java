@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,15 +106,21 @@ public class MainActivity extends AppCompatActivity {
                // Cursor cursor=resolver.query(uri,null,null,null,null);
                 data=message.toString();
 
-                addToArraylist(data);
+                addtoArraylist_Using1function(data);
 
             }
         }
 
     }
+
+
+
+
+
+
+
     public void addToArraylist(String q)
     {
-
         int comma_counter=0;
         for(int i=1;i<q.length();i++) {
             String comma;
@@ -124,8 +132,8 @@ public class MainActivity extends AppCompatActivity {
                     CustomClass addition=new CustomClass(rollconcat,nameconcat);
                     mylist.add(addition);
                     comma_counter=0;
-                    rollconcat=null;
-                    nameconcat=null;
+                    rollconcat="";
+                    nameconcat="";
                 }
             } else
             {
@@ -137,12 +145,29 @@ public class MainActivity extends AppCompatActivity {
               {
                   nameconcat=nameconcat+comma;
               }
-
             }
-
-            //print_detail.setText(comma);
         }
+        namedisplayer=(RecyclerView)findViewById(R.id.rec);
+        layoutManager=new LinearLayoutManager(this);
+        namedisplayer.setLayoutManager(layoutManager);
+        namedisplayer.setHasFixedSize(true);
+        adapter=new Adapter(mylist,this);
+        namedisplayer.setAdapter(adapter);
+    }
 
+
+
+
+
+    //different function in which the list is seperated using only one function
+
+    public void addtoArraylist_Using1function(String q)
+    {
+        List<String> list = new ArrayList<String>(Arrays.asList(q.split(",")));
+       for (int i=0;i<list.size()-1;i=i+2) {
+           CustomClass addition = new CustomClass(list.get(i), list.get(i+1));
+           mylist.add(addition);
+       }
         namedisplayer=(RecyclerView)findViewById(R.id.rec);
         layoutManager=new LinearLayoutManager(this);
         namedisplayer.setLayoutManager(layoutManager);
@@ -150,8 +175,13 @@ public class MainActivity extends AppCompatActivity {
         adapter=new Adapter(mylist,this);
         namedisplayer.setAdapter(adapter);
 
-
     }
+
+
+
+
+
+
 
     private String readTextFromUri(Uri uri) throws IOException {
         InputStream inputStream = getContentResolver().openInputStream(uri);
