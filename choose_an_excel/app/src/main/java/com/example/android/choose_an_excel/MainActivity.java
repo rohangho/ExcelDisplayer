@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     TextView print_detail;
     Button abc;
     ArrayList<CustomClass> mylist=new ArrayList<CustomClass>();
+    ArrayList<CustomClass> myUpdatedList=new ArrayList<>();
     String data;
     RecyclerView namedisplayer;
     Adapter adapter;
@@ -62,7 +63,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void SaveMe(View view)
     {
-        Log.e("hiiiiii",Integer.toString(adapter.tracker.length));
+        int k=0;
+        Log.e("hiiiiii",Boolean.toString(adapter.tracker[2]));
+        List<String> list = new ArrayList<String>(Arrays.asList(data.split(",")));
+        for (int i=0;i<list.size()-2;i=i+3) {
+            CustomClass addition = new CustomClass(list.get(i), list.get(i+1),Boolean.toString(adapter.tracker[k]));
+            k++;
+            myUpdatedList.add(addition);
+        }
+
+    }
+    public void ClearEveryThing(View view)
+    {
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -139,12 +152,13 @@ public class MainActivity extends AppCompatActivity {
        for (int i=0;i<list.size()-2;i=i+3) {
            CustomClass addition = new CustomClass(list.get(i), list.get(i+1),list.get(i+2));
            mylist.add(addition);
+           myUpdatedList.add(addition);
        }
         namedisplayer=(RecyclerView)findViewById(R.id.rec);
         layoutManager=new LinearLayoutManager(this);
         namedisplayer.setLayoutManager(layoutManager);
         namedisplayer.setHasFixedSize(true);
-        adapter=new Adapter(mylist,this,list.size());
+        adapter=new Adapter(mylist,this,(list.size()/3));
         namedisplayer.setAdapter(adapter);
 
 

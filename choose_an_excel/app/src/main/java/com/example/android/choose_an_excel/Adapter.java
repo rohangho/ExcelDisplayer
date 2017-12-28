@@ -19,14 +19,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     ArrayList<CustomClass> detail=new ArrayList<>();
     Context ctx;
     int size;
-
+    boolean  tracker[];
     public Adapter (ArrayList<CustomClass>detail,Context  ctx,int a)
     {
         this.detail=detail;
         this.ctx=ctx;
         this.size=a;
-    }
-    boolean  tracker[]=new boolean[size];
+        tracker= new boolean[size];
+           }
+
     @Override
     public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_displayer,parent,false);
@@ -67,6 +68,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             name=(TextView)itemView.findViewById(R.id.name);
             rollno=(TextView)itemView.findViewById(R.id.roll);
             enable=(Switch)itemView.findViewById(R.id.trueANDfalse);
+
             name.setOnClickListener(this);
         }
 
