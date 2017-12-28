@@ -64,34 +64,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SaveMe(View view) throws IOException {
-        ArrayList<CustomClass> myUpdatedList=new ArrayList<>();
-        int k=0;
-        Log.e("hiiiiii",Boolean.toString(adapter.tracker[2]));
+        ArrayList<CustomClass> myUpdatedList = new ArrayList<>();
+        int k = 0;
+        Log.e("hiiiiii", Boolean.toString(adapter.tracker[2]));
         List<String> list = new ArrayList<String>(Arrays.asList(data.split(",")));
-        for (int i=0;i<list.size()-2;i=i+3) {
-            CustomClass addition1 = new CustomClass(list.get(i), list.get(i+1),Boolean.toString(adapter.tracker[k]));
+        for (int i = 0; i < list.size() - 2; i = i + 3) {
+            CustomClass addition1 = new CustomClass(list.get(i), list.get(i + 1), Boolean.toString(adapter.tracker[k]));
             myUpdatedList.add(addition1);
             k++;
 
         }
-  //   Log.e("hiiiiiiiiiiiiii",myUpdatedList.get(2).getBool());
-        FileOutputStream outputStream;
-        for(int j=0;j<myUpdatedList.size();j++)
-        {
-            outputStream = openFileOutput(Filename, Context.MODE_PRIVATE);
-            outputStream.write(myUpdatedList.get(j).getRoll().getBytes());
-            outputStream.write(",".getBytes());
-            outputStream.write(myUpdatedList.get(j).getName().getBytes());
-            outputStream.write(",".getBytes());
-            try {
-                outputStream.write(myUpdatedList.get(j).getBool().getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            outputStream.write(",".getBytes());
+        //   Log.e("hiiiiiiiiiiiiii",myUpdatedList.get(2).getBool());
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                FileOutputStream outputStream;
+                for (int j = 0; j < myUpdatedList.size(); j++) {
+                    outputStream = openFileOutput(Filename, Context.MODE_PRIVATE);
+                    outputStream.write(myUpdatedList.get(j).getRoll().getBytes());
+                    outputStream.write(",".getBytes());
+                    outputStream.write(myUpdatedList.get(j).getName().getBytes());
+                    outputStream.write(",".getBytes());
+                    try {
+                        outputStream.write(myUpdatedList.get(j).getBool().getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    outputStream.write(",".getBytes());
 
+                }
+            }
         }
     }
+
 
 
 
