@@ -2,6 +2,7 @@ package com.example.android.choose_an_excel;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     TextView print_detail;
     Button abc;
     ArrayList<CustomClass> mylist=new ArrayList<CustomClass>();
-    ArrayList<CustomClass> myUpdatedList=new ArrayList<>();
+    public static final String Filename="myattendace";
     String data;
     RecyclerView namedisplayer;
     Adapter adapter;
@@ -61,18 +63,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void SaveMe(View view)
-    {
+    public void SaveMe(View view) throws IOException {
+        ArrayList<CustomClass> myUpdatedList=new ArrayList<>();
         int k=0;
         Log.e("hiiiiii",Boolean.toString(adapter.tracker[2]));
         List<String> list = new ArrayList<String>(Arrays.asList(data.split(",")));
         for (int i=0;i<list.size()-2;i=i+3) {
-            CustomClass addition = new CustomClass(list.get(i), list.get(i+1),Boolean.toString(adapter.tracker[k]));
+            CustomClass addition1 = new CustomClass(list.get(i), list.get(i+1),Boolean.toString(adapter.tracker[k]));
+            myUpdatedList.add(addition1);
             k++;
-            myUpdatedList.add(addition);
-        }
 
+        }
+  //   Log.e("hiiiiiiiiiiiiii",myUpdatedList.get(2).getBool());
+        FileOutputStream outputStream;
+        for(int j=0;j<myUpdatedList.size();j++)
+        {
+            outputStream = openFileOutput(Filename, Context.MODE_PRIVATE);
+            outputStream.write(myUpdatedList.get(j).getRoll().getBytes());
+            outputStream.write(",".getBytes());
+            outputStream.write(myUpdatedList.get(j).getName().getBytes());
+            outputStream.write(",".getBytes());
+            try {
+                outputStream.write(myUpdatedList.get(j).getBool().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            outputStream.write(",".getBytes());
+
+        }
     }
+
+
+
     public void ClearEveryThing(View view)
     {
 
@@ -152,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
        for (int i=0;i<list.size()-2;i=i+3) {
            CustomClass addition = new CustomClass(list.get(i), list.get(i+1),list.get(i+2));
            mylist.add(addition);
-           myUpdatedList.add(addition);
+
        }
         namedisplayer=(RecyclerView)findViewById(R.id.rec);
         layoutManager=new LinearLayoutManager(this);
@@ -163,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 
