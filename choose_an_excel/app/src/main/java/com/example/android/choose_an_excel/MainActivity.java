@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,20 +93,33 @@ public class MainActivity extends AppCompatActivity {
 
     public void write_file(ArrayList<CustomClass> myUpdatedList)
     {
-        FileOutputStream outputStream;
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = openFileOutput(Filename, Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         for(int j=0;j<myUpdatedList.size();j++)
         {
             try {
-                outputStream = openFileOutput(Filename, Context.MODE_PRIVATE);
+
                 outputStream.write(myUpdatedList.get(j).getRoll().getBytes());
                 outputStream.write(",".getBytes());
                 outputStream.write(myUpdatedList.get(j).getName().getBytes());
                 outputStream.write(",".getBytes());
+                outputStream.write(myUpdatedList.get(j).getBool().getBytes());
                 outputStream.write(",".getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
